@@ -104,7 +104,9 @@ struct PdfInfo {
 /// Page count and small page pictures for the PDF tools.
 #[tauri::command]
 async fn pdf_info(jobs: State<'_, Jobs>, path: String, thumbnails: bool) -> Result<PdfInfo, String> {
-    let work = std::env::temp_dir().join("convert-everything").join(format!("info-{}", std::process::id()));
+    static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let n = NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let work = std::env::temp_dir().join("convert-everything").join(format!("info-{}-{n}", std::process::id()));
     let _ = std::fs::remove_dir_all(&work);
     let ctx = Ctx::new(jobs.engines.clone(), work.clone(), CancellationToken::new(), Arc::new(|_| {}));
     let input = PathBuf::from(&path);

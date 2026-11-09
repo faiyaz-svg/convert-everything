@@ -36,21 +36,24 @@ async fn largest_ico_frame(ctx: &Ctx, input: &Path) -> Option<usize> {
 
 pub async fn convert(ctx: &Ctx, input: &Path, from: &Format, to: &Format, o: &Opts, out: &Path) -> Result<()> {
     std::fs::create_dir_all(ctx.work.join("tmp"))?;
-    let multi_frame_out = ["gif", "tiff", "pdf"].contains(&to.id);
+    // Animated GIFs and multi-page TIFF scans keep every frame when the target can hold them.
+    let multi_frame_out = ["gif", "tiff"].contains(&from.id) && ["gif", "tiff", "pdf"].contains(&to.id);
     let mut cmd = magick(ctx);
 
     if from.id == "eps" {
         cmd = cmd.args(["-density", "300"]);
     }
+    // Pick one picture from files that hold several: an ICO's largest size, a PSD's
+    // flattened image, the first frame of a GIF, the main image of a HEIC.
     let mut src = input.as_os_str().to_os_string();
     match from.id {
-        "psd" => src.push("[0]"),
         "ico" => {
             if let Some(i) = largest_ico_frame(ctx, input).await {
                 src.push(format!("[{i}]"));
             }
         }
-        "gif" | "tiff" if !multi_frame_out => src.push("[0]"),
+        "psd" => src.push("[0]"),
+        _ if !multi_frame_out => src.push("[0]"),
         _ => {}
     }
     cmd = cmd.arg(src);
@@ -119,12 +122,10 @@ pub async fn from_svg(ctx: &Ctx, input: &Path, to: &Format, o: &Opts, out: &Path
 }
 
 /// Raster to SVG by tracing shapes with VTracer.
-pub async fn trace(ctx: &Ctx, input: &Path, from: &Format, o: &Opts, out: &Path) -> Result<()> {
+pub async fn trace(ctx: &Ctx, input: &Path, o: &Opts, out: &Path) -> Result<()> {
     let png = ctx.tmp("trace-input.png");
     let mut src = input.as_os_str().to_os_string();
-    if ["gif", "tiff", "psd", "ico"].contains(&from.id) {
-        src.push("[0]");
-    }
+    src.push("[0]");
     ctx.run(magick(ctx).arg(src).arg("-auto-orient").arg(&png)).await?;
 
     let (speckle, precision) = match o.str_or("detail", "medium").as_str() {
@@ -146,8 +147,9 @@ pub async fn images_to_pdf(ctx: &Ctx, inputs: &[std::path::PathBuf], out: &Path)
     let mut cmd = magick(ctx);
     for p in inputs {
         let mut s = p.as_os_str().to_os_string();
+        // Multi-page TIFF scans keep every page; other files give one picture.
         let lower = p.to_string_lossy().to_lowercase();
-        if lower.ends_with(".gif") || lower.ends_with(".psd") {
+        if !lower.ends_with(".tif") && !lower.ends_with(".tiff") {
             s.push("[0]");
         }
         cmd = cmd.arg(s);

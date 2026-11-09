@@ -40,7 +40,7 @@ pub async fn convert(ctx: &Ctx, input: &Path, from: &'static Format, to: &'stati
     match route.handler {
         Handler::Image => image::convert(ctx, input, from, to, opts, &out).await?,
         Handler::SvgRender => image::from_svg(ctx, input, to, opts, &out).await?,
-        Handler::Trace => image::trace(ctx, input, from, opts, &out).await?,
+        Handler::Trace => image::trace(ctx, input, opts, &out).await?,
         Handler::Media => media::convert(ctx, input, from, to, opts, &out).await?,
         Handler::Office => office::convert(ctx, input, from, to, &out).await?,
         Handler::OfficeToImages => {
@@ -72,6 +72,9 @@ pub async fn convert(ctx: &Ctx, input: &Path, from: &'static Format, to: &'stati
         && main.is_file()
         && std::fs::metadata(main).map(|m| m.len()).unwrap_or(0) == 0
     {
+        if from.id == "pdf" && to.id == "txt" {
+            bail!("This PDF has no text to take out. It may be a scan or made of pictures.");
+        }
         bail!("The conversion wrote an empty file.");
     }
     Ok(produced)

@@ -70,7 +70,7 @@ fn filter(from: &Format, to: &Format) -> String {
         "odt" => "odt:writer8",
         "rtf" => "rtf:Rich Text Format",
         "txt" => "txt:Text (encoded):UTF8",
-        "html" if from.category == Category::Spreadsheet => "html:HTML (StarCalc)",
+        "html" if matches!(from.category, Category::Spreadsheet | Category::Data) => "html:HTML (StarCalc)",
         "html" => "html:HTML (StarWriter)",
         "xlsx" => "xlsx:Calc MS Excel 2007 XML",
         "xls" => "xls:MS Excel 97",

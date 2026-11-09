@@ -67,8 +67,11 @@ const SHEETS: &[&str] = &["xlsx", "xls", "ods"];
 const SHEET_OUT: &[&str] = &["xlsx", "xls", "ods", "csv", "pdf", "html"];
 const SLIDES: &[&str] = &["pptx", "ppt", "odp"];
 const SLIDE_OUT: &[&str] = &["pptx", "ppt", "odp", "pdf"];
-const EBOOK_IN: &[&str] = &["epub", "mobi", "azw3", "fb2", "pdb", "lit", "cbz", "cbr", "docx", "odt", "rtf", "txt", "html", "md"];
+const EBOOK_IN: &[&str] = &["epub", "mobi", "azw3", "fb2", "pdb", "lit", "docx", "odt", "rtf", "txt", "html", "md"];
 const EBOOK_OUT: &[&str] = &["epub", "mobi", "azw3", "fb2", "pdb", "pdf", "docx", "txt", "rtf"];
+/// Comic books are pictures only, so they become picture-based formats.
+const COMICS: &[&str] = &["cbz", "cbr"];
+const COMIC_OUT: &[&str] = &["epub", "mobi", "azw3", "pdf"];
 const ARCHIVE_IN: &[&str] = &["zip", "7z", "tar", "tgz", "txz", "tbz2", "rar", "iso", "cab", "gz", "bz2", "xz", "cbz", "cbr"];
 const ARCHIVE_OUT: &[&str] = &["zip", "7z", "tar", "tgz", "txz", "tbz2", "folder"];
 const DATA_IN: &[&str] = &["csv", "tsv", "json", "yaml", "toml", "xml", "xlsx", "xls", "ods"];
@@ -102,10 +105,13 @@ fn rules() -> Vec<Rule> {
         r(MARKUP, MARKUP_OUT, Pandoc, false, None),
         r(RICH_IN, MARKUP, Pandoc, false, None),
         r(&["docx", "odt"], &["html"], Pandoc, false, None),
+        // LibreOffice's plain-text export can loop forever on some Word files.
+        r(&["docx", "odt", "html"], &["txt"], Pandoc, false, None),
         r(&["html"], &["docx", "odt"], Pandoc, false, None),
         r(MARKUP, &["pdf"], PandocToPdf, false, Some("Uses simple styling. Headings, lists, tables and images are kept.")),
         r(WORD_IN, WORD_OUT, Office, false, None),
         r(EBOOK_IN, EBOOK_OUT, Ebook, false, None),
+        r(COMICS, COMIC_OUT, Ebook, false, None),
         r(ARCHIVE_IN, ARCHIVE_OUT, Archive, false, None),
         r(DATA_IN, DATA_OUT, Data, false, Some("Nested data becomes columns such as address.city when saved as a table.")),
         r(FONTS, FONTS, Font, false, None),
@@ -355,6 +361,7 @@ mod tests {
     fn picks_the_expected_engine() {
         assert_eq!(find("docx", "pdf").unwrap().handler, Handler::Office);
         assert_eq!(find("docx", "md").unwrap().handler, Handler::Pandoc);
+        assert_eq!(find("docx", "txt").unwrap().handler, Handler::Pandoc);
         assert_eq!(find("md", "pdf").unwrap().handler, Handler::PandocToPdf);
         assert_eq!(find("docx", "epub").unwrap().handler, Handler::Ebook);
         assert_eq!(find("csv", "xlsx").unwrap().handler, Handler::Data);
