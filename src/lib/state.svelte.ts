@@ -184,7 +184,10 @@ export async function addPaths(paths: string[]) {
   }
   if (!added.length) return;
   app.items.push(...added);
-  const tabs = new Set(added.map(itemTab));
+  // Open the tab for these files, unless files waiting in the list belong to
+  // different tabs (a right-click on several files sends them one at a time).
+  const waiting = app.items.filter((i) => i.state === "ready");
+  const tabs = new Set(waiting.map(itemTab));
   app.tab = tabs.size === 1 ? [...tabs][0] : "all";
   app.view = "list";
 }

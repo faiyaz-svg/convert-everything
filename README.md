@@ -32,7 +32,7 @@ It can also:
 
 ## Download
 
-Get the installer from the [Releases page](https://github.com/faiyaz-svg/convert-everything/releases). It is large (about 700 MB) because every converter is included, so nothing has to be downloaded later.
+Get the installer from the [Releases page](https://github.com/faiyaz-svg/convert-everything/releases). It is large (about 470 MB) because every converter is included, so nothing has to be downloaded later.
 
 The installer is not signed yet, so Windows shows "Windows protected your PC" the first time. Click **More info**, then **Run anyway**. The app installs for your user account only and does not need administrator rights.
 
