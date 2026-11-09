@@ -281,7 +281,9 @@ function applyUpdate(u: JobUpdate) {
 let historyTimer: ReturnType<typeof setTimeout> | undefined;
 function refreshHistory() {
   clearTimeout(historyTimer);
-  historyTimer = setTimeout(async () => (app.history = await api.history()), 300);
+  historyTimer = setTimeout(async () => {
+    app.history = await api.history();
+  }, 300);
 }
 
 export function openTab(id: TabId) {

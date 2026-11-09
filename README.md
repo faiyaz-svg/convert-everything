@@ -4,6 +4,8 @@ A free Windows app that converts files between formats. Every conversion runs on
 
 Drop in any file or folder. The app works out what each file is, sorts it into a tab, and lists what it can become. Pick a format and press Convert.
 
+![The file list: two iPhone photos, a screen recording, a Word file and a Kindle book, each with the format it will become and its status](docs/screenshot-files.png)
+
 ## What it converts
 
 | Tab | Formats |
@@ -25,6 +27,8 @@ It can also:
 - trim audio and video
 - merge, split, reorder and rotate PDFs, put pictures into a PDF, and save PDF pages as pictures
 - add "Convert with Convert Everything" to the File Explorer right-click menu
+
+![More options for a video in dark mode: codec, quality, target size, resolution, frame rate, speed, sound and trim times](docs/screenshot-options.png)
 
 ## Download
 

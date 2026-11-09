@@ -65,9 +65,9 @@
     <thead>
       <tr>
         <th>File</th>
-        <th style="width: 235px">Convert to</th>
+        <th style="width: 210px">Convert to</th>
         <th style="width: 150px">Status</th>
-        <th style="width: 210px"><span class="muted small">Actions</span></th>
+        <th style="width: 245px"><span class="muted small">Actions</span></th>
       </tr>
     </thead>
     <tbody>

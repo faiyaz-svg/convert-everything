@@ -29,6 +29,9 @@ const history: HistoryEntry[] = [
 
 let registry: Registry | null = null;
 
+const fakeSize = (path: string) => 200_000 + ((path.length * 7919) % 9_000_000);
+const kb = (bytes: number) => (bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`);
+
 function formatFor(name: string): string | null {
   const lower = name.toLowerCase();
   let best: { id: string; len: number } | null = null;
@@ -60,7 +63,7 @@ export async function mockApi(): Promise<Api> {
       paths.map<ProbedFile>((p) => ({
         path: p,
         name: p.split(/[\\/]/).pop() ?? p,
-        size: 200_000 + ((p.length * 7919) % 9_000_000),
+        size: fakeSize(p),
         format: formatFor(p),
       })),
     start: async (requests) => {
@@ -72,7 +75,8 @@ export async function mockApi(): Promise<Api> {
           if (p >= 1) {
             clearInterval(timer);
             const out = r.input.replace(/\.[^.\\]+$/, "") + "." + (registry!.formats.find((f) => f.id === r.to)?.exts[0] ?? r.to);
-            emit({ id: r.id, state: "done", progress: 1, message: "2.4 MB to 610 KB", outputs: [out] });
+            const size = fakeSize(r.input);
+            emit({ id: r.id, state: "done", progress: 1, message: `${kb(size)} to ${kb(size * 0.3)}`, outputs: [out] });
           } else {
             emit({ id: r.id, state: "running", progress: r.to === "folder" ? null : p });
           }
