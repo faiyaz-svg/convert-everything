@@ -1,7 +1,7 @@
 {
   "name": "convert-everything",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convert files between formats on your own Windows computer.",
   "type": "module",
   "license": "GPL-3.0-or-later",

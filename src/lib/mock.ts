@@ -123,6 +123,6 @@ export async function mockApi(): Promise<Api> {
     openUrl: async (url) => {
       window.open(url, "_blank");
     },
-    version: async () => "0.1.0",
+    version: async () => "0.1.1",
   };
 }

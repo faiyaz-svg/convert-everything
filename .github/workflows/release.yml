@@ -33,6 +33,8 @@ jobs:
           key: engines-${{ hashFiles('scripts/engines.lock.json') }}
       - run: npm ci
       - name: Download the engines
+        # cmd, so Windows PowerShell does not inherit PowerShell 7's module path.
+        shell: cmd
         run: npm run engines
       - name: Run every conversion through the engines
         run: npm run test:convert

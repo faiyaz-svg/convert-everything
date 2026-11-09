@@ -37,6 +37,15 @@ function Save-Url([string]$Url, [string]$OutFile) {
   Move-Item -Force "$OutFile.part" $OutFile
 }
 
+# Get-FileHash is missing when Windows PowerShell is started from PowerShell 7
+# (as on GitHub's runners), so hash with .NET directly.
+function Get-Sha256([string]$Path) {
+  $stream = [IO.File]::OpenRead($Path)
+  try { $bytes = [Security.Cryptography.SHA256]::Create().ComputeHash($stream) }
+  finally { $stream.Dispose() }
+  return -join ($bytes | ForEach-Object { $_.ToString('x2') })
+}
+
 function Get-Download($Engine) {
   $name = [IO.Path]::GetFileName(([Uri]$Engine.url).AbsolutePath)
   $file = Join-Path $Cache $name
@@ -44,7 +53,7 @@ function Get-Download($Engine) {
     Write-Host "  downloading $($Engine.url)"
     Save-Url $Engine.url $file
   }
-  $hash = (Get-FileHash $file -Algorithm SHA256).Hash.ToLower()
+  $hash = Get-Sha256 $file
   if ($Engine.sha256 -and $Engine.sha256 -ne $hash -and -not $UpdateHashes) {
     throw "SHA-256 mismatch for $name`n  expected $($Engine.sha256)`n  got      $hash"
   }
