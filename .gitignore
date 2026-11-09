@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.vite/
+
+# Rust build output
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Engines are downloaded by scripts/fetch-engines.ps1, never committed
+src-tauri/engines/
+.engine-cache/
+
+# Test output
+tests/out/
+.playwright-mcp/
+
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db

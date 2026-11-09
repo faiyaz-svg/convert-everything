@@ -1,0 +1,46 @@
+[package]
+name = "convert-everything"
+version = "0.1.0"
+description = "Convert files between formats on your own computer"
+authors = ["Faiyaz Saraf"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/faiyaz-svg/convert-everything"
+edition = "2024"
+
+[lib]
+# The _lib suffix keeps the lib name apart from the bin name on Windows.
+name = "convert_everything_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-single-instance = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+tokio = { version = "1.54.1", features = ["process", "io-util", "sync", "macros", "rt-multi-thread", "time"] }
+tokio-util = "0.7.20"
+anyhow = "1.0.104"
+infer = "0.22.0"
+csv = "1.4.0"
+calamine = { version = "0.38.0", features = ["dates"] }
+rust_xlsxwriter = "0.102.0"
+serde_yaml = "0.9.34"
+toml = "1.2.1"
+walkdir = "2.5.0"
+base64 = "0.23.1"
+roxmltree = "0.21.2"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true
+
+[target."cfg(windows)".dependencies]
+winreg = "0.56.0"

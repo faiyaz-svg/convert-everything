@@ -1,0 +1,33 @@
+{
+  "name": "convert-everything",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Convert files between formats on your own Windows computer.",
+  "type": "module",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "tauri": "tauri",
+    "engines": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/fetch-engines.ps1",
+    "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
+    "test:convert": "cargo test --manifest-path src-tauri/Cargo.toml --test matrix -- --ignored --nocapture",
+    "release": "tauri build --config src-tauri/tauri.bundle.conf.json"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-dialog": "^2",
+    "@tauri-apps/plugin-opener": "^2"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tauri-apps/cli": "^2",
+    "@types/node": "^24",
+    "svelte": "^5.56.3",
+    "svelte-check": "^4.6.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.16"
+  }
+}
