@@ -1,0 +1,163 @@
+{
+  "comment": "Pinned engine downloads. Run scripts/fetch-engines.ps1 to fill src-tauri/engines. Run it with -UpdateHashes after changing a URL. 7zip must stay first: it unpacks the others.",
+  "engines": [
+    {
+      "name": "7zip",
+      "title": "7-Zip",
+      "version": "26.06",
+      "license": "LGPL-2.1-or-later with unRAR restriction",
+      "source": "https://github.com/ip7z/7zip",
+      "url": "https://github.com/ip7z/7zip/releases/download/26.06/7z2606-x64.msi",
+      "sha256": "6dc822569e777d9a3ecd5ffcbc22b55600af87e6c5d9810a64e8566cf5a4af9f",
+      "type": "msi",
+      "marker": "7z.exe",
+      "keep": ["7z.exe", "7z.dll", "License.txt"],
+      "licenseFiles": ["License.txt"]
+    },
+    {
+      "name": "ffmpeg",
+      "title": "FFmpeg",
+      "version": "9.0.2",
+      "license": "GPL-3.0-or-later (full build)",
+      "source": "https://ffmpeg.org/download.html#get-sources",
+      "url": "https://github.com/GyanD/codexffmpeg/releases/download/9.0.2/ffmpeg-9.0.2-full_build-shared.7z",
+      "sha256": "4d2060a8b34a940aa47d785142055bb92a63053781e55f2ace4546edd519a8f5",
+      "type": "archive",
+      "marker": "bin/ffmpeg.exe",
+      "prune": ["doc", "bin/ffplay.exe"],
+      "licenseFiles": ["LICENSE", "README.txt"]
+    },
+    {
+      "name": "imagemagick",
+      "title": "ImageMagick",
+      "version": "7.1.2-35",
+      "license": "ImageMagick License (Apache-2.0 style)",
+      "source": "https://github.com/ImageMagick/ImageMagick",
+      "url": "https://github.com/ImageMagick/ImageMagick/releases/download/7.1.2-35/ImageMagick-7.1.2-35-portable-Q16-HDRI-x64.7z",
+      "sha256": "34db4364da26c88d6b8cc5bbc1fff22b85d00d3b399c82fe85ee4790efacbbf1",
+      "type": "archive",
+      "marker": "magick.exe",
+      "keep": ["magick.exe", "*.xml", "*.icc", "LICENSE.txt", "NOTICE.txt"],
+      "licenseFiles": ["LICENSE.txt", "NOTICE.txt"]
+    },
+    {
+      "name": "ghostscript",
+      "title": "Ghostscript",
+      "version": "10.08.0",
+      "license": "AGPL-3.0-or-later",
+      "source": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/tag/gs10080",
+      "url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10080/gs10080w64.exe",
+      "sha256": "52a91b8bf09298788d7a57b9206127026c23eacd75405f0a131e26dc381dce50",
+      "type": "archive",
+      "marker": "bin/gswin64c.exe",
+      "prune": ["doc", "examples", "$PLUGINSDIR", "uninstgs.exe*", "vcredist_x64.exe", "bin/gswin64.exe", "bin/*.lib"],
+      "licenseFiles": ["LICENSE", "doc/COPYING", "doc/LICENSE"]
+    },
+    {
+      "name": "libreoffice",
+      "title": "LibreOffice",
+      "version": "26.8.2.2",
+      "license": "MPL-2.0",
+      "source": "https://www.libreoffice.org/about-us/source-code/",
+      "url": "https://downloadarchive.documentfoundation.org/libreoffice/old/26.8.2.2/win/x86_64/LibreOffice_26.8.2.2_Win_x86-64.msi",
+      "sha256": "ff4b911403b67ee9e6249f820f9782c44bb32c94fdaa45b0da53a8e419e5307a",
+      "type": "msi",
+      "marker": "program/soffice.exe",
+      "prune": [
+        "help", "readmes", "CREDITS.fodt", "*.msi",
+        "share/extensions",
+        "program/resource",
+        "share/config/images_breeze*", "share/config/images_sukapura*", "share/config/images_elementary*",
+        "share/config/images_karasa_jaga*", "share/config/images_sifr*", "share/config/images_colibre_dark*",
+        "share/config/images_helpimg.zip",
+        "share/registry/Langpack-[a-df-z]*.xcd", "share/registry/Langpack-e[a-mo-z]*.xcd",
+        "share/registry/Langpack-en-GB.xcd", "share/registry/Langpack-en-ZA.xcd",
+        { "path": "share/registry/res", "except": ["*en-US*"] }
+      ],
+      "licenseFiles": ["LICENSE.html", "NOTICE"]
+    },
+    {
+      "name": "pandoc",
+      "title": "Pandoc",
+      "version": "3.13",
+      "license": "GPL-2.0-or-later",
+      "source": "https://github.com/jgm/pandoc",
+      "url": "https://github.com/jgm/pandoc/releases/download/3.13/pandoc-3.13-windows-x86_64.zip",
+      "sha256": "23e1f2e978a3df80db8bf65c9c59534f41a23140480cfb4f783a882ab7dc6a4e",
+      "type": "archive",
+      "marker": "pandoc.exe",
+      "licenseFiles": ["COPYRIGHT.txt", "COPYING.rtf"]
+    },
+    {
+      "name": "calibre",
+      "title": "Calibre",
+      "version": "9.18.0",
+      "license": "GPL-3.0",
+      "source": "https://github.com/kovidgoyal/calibre",
+      "url": "https://github.com/kovidgoyal/calibre/releases/download/v9.18.0/calibre-64bit-9.18.0.msi",
+      "sha256": "05c0f2223866f8082e05b2d4bc9c57b31a833de8355a1191fd79c260c2636d38",
+      "type": "msi",
+      "marker": "ebook-convert.exe",
+      "prune": [
+        "app/resources/langtool", "app/share/espeak-ng-data", "app/translations",
+        "app/resources/qtwebengine_devtools_resources.pak",
+        "app/bin/onnxruntime.dll", "app/bin/DirectML.dll",
+        "calibre.exe", "calibre-server.exe", "calibre-smtp.exe", "calibredb.exe", "ebook-edit.exe",
+        "ebook-viewer.exe", "lrfviewer.exe", "ebook-device.exe", "calibre-complete.exe"
+      ],
+      "licenseFiles": ["LICENSE", "COPYRIGHT"],
+      "licenseUrl": "https://raw.githubusercontent.com/kovidgoyal/calibre/v9.18.0/LICENSE"
+    },
+    {
+      "name": "qpdf",
+      "title": "qpdf",
+      "version": "12.4.2",
+      "license": "Apache-2.0",
+      "source": "https://github.com/qpdf/qpdf",
+      "url": "https://github.com/qpdf/qpdf/releases/download/v12.4.2/qpdf-12.4.2-msvc64.zip",
+      "sha256": "db87077e683630c1217e0e8f9a20a9749d952ab676e881c3689187763a5de25d",
+      "type": "archive",
+      "marker": "bin/qpdf.exe",
+      "prune": ["include", "lib"],
+      "licenseUrl": "https://raw.githubusercontent.com/qpdf/qpdf/v12.4.2/LICENSE.txt"
+    },
+    {
+      "name": "resvg",
+      "title": "resvg",
+      "version": "0.49.0",
+      "license": "Apache-2.0 OR MIT",
+      "source": "https://github.com/linebender/resvg",
+      "url": "https://github.com/linebender/resvg/releases/download/v0.49.0/resvg-win-x86_64.zip",
+      "sha256": "38af9631b37e61118a32a5ef31e6be6af083eda63b4c17ffc4fdc63e449277df",
+      "type": "archive",
+      "marker": "resvg.exe",
+      "licenseUrl": "https://raw.githubusercontent.com/linebender/resvg/v0.49.0/LICENSE-MIT"
+    },
+    {
+      "name": "vtracer",
+      "title": "VTracer",
+      "version": "1.0.0-alpha.4",
+      "license": "MIT",
+      "source": "https://github.com/visioncortex/vtracer",
+      "url": "https://github.com/visioncortex/vtracer/releases/download/1.0.0-alpha.4/vtracer-x86_64-pc-windows-msvc.zip",
+      "sha256": "8eadb5529864265f003f791ad9cb128e1b9b8b8af8c21016f38b04706bcf3531",
+      "type": "archive",
+      "marker": "vtracer.exe",
+      "licenseUrl": "https://raw.githubusercontent.com/visioncortex/vtracer/1.0.0-alpha.4/LICENSE"
+    },
+    {
+      "name": "python",
+      "title": "Python with fontTools",
+      "version": "3.14.10 (fontTools 4.68.0, Brotli 1.2.1)",
+      "license": "PSF-2.0, MIT",
+      "source": "https://www.python.org/downloads/source/",
+      "url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-embed-amd64.zip",
+      "sha256": "90905e64a840557d8c1bc4f5b74db3d7ee85e3ffb217611cac1c7813acea4159",
+      "type": "archive",
+      "marker": "python.exe",
+      "pip": ["fonttools==4.68.0", "brotli==1.2.1"],
+      "pythonVersion": "3.14",
+      "licenseFiles": ["LICENSE.txt"]
+    }
+  ]
+}
